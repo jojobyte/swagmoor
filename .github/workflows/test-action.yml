@@ -1,5 +1,9 @@
 name: "test-on-pr"
-on: [pull_request]
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 
 jobs:
   test-tauri:
