@@ -1,0 +1,38 @@
+{
+  "name": "swagmoor",
+  "description": "A cross-platform system application dock built in Tauri with Rust, JavaScript, HTML & CSS",
+  "author": "jojobyte <jojobyte@0t.lc> (https://jojo.io/)",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jojobyte/swagmoor.git"
+  },
+  "keywords": [
+    "desktop",
+    "app",
+    "application",
+    "dock",
+    "tauri",
+    "rust"
+  ],
+  "funding": [
+    {
+      "type" : "github",
+      "url" : "https://github.com/sponsors/jojobyte"
+    },
+    "https://ko-fi.com/jojobyte",
+    "https://liberapay.com/jojobyte/"
+  ],
+  "scripts": {
+    "start": "bun run serve & bun run tauri dev",
+    "serve": "lite-reload dist --port=9000",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1.0.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.0.5",
+    "lite-reload": "^1.0.2"
+  }
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #222a;
+  background-color: #eeea;
+  /* background-color: hotpink; */
+  color: #eee;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: 200;
+}
+nav {
+  display: flex;
+}
+button {
+  background: transparent;
+  border: 0 solid;
+  font-size: 100vh;
+  min-width: 100px;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+button img {
+  width: auto;
+  height: 100%;
+}
+</style>
+<script type="module" async>
+const { appWindow, availableMonitors, currentMonitor, WebviewWindow } = window.__TAURI__.window
+
+const monitors = await availableMonitors();
+const monitor = await currentMonitor();
+// let settingsPanel = null
+let settingsWebview
+let settingsClose
+
+console.log('available monitors', monitors)
+console.log('current monitor', monitor)
+
+function openSettings() {
+  let settingsPanel = WebviewWindow.getByLabel('settings')
+
+  if (!settingsPanel) {
+    settingsPanel = createSettingsPanel()
+  }
+
+  console.log('open settings', settingsPanel)
+
+  settingsPanel?.show()
+}
+
+function createSettingsPanel() {
+  settingsWebview = new WebviewWindow('settings', {
+    url: './settings.html',
+    title: 'Settings',
+    visible: false,
+    // decorations: false,
+  })
+
+  settingsWebview.once('tauri://created', function () {
+    console.log('index tauri created settings')
+  })
+  settingsWebview.onCloseRequested(async function (e) {
+    console.log('index tauri close-requested settings', e)
+    e.preventDefault();
+    // settingsWebview.hide()
+  })
+  settingsWebview.once('tauri://destroyed', function () {
+    console.log('index tauri destroyed settings')
+    createSettingsPanel()
+  })
+  settingsWebview.once('tauri://error', function (e) {
+    console.log('index tauri error settings', e)
+  })
+
+  return settingsWebview
+}
+
+createSettingsPanel()
+
+const iconElements = document.querySelector('nav')
+
+iconElements.addEventListener('click', event => {
+  console.log('icon click', event?.target?.classList)
+  if (event?.target?.classList.contains('settings')) {
+    openSettings()
+  }
+})
+
+const unlistenFileDrop = appWindow.onFileDropEvent(event => {
+  if (event?.payload?.type === 'hover') {
+    console.log('User hovering', event.payload.paths);
+  } else if (event.payload.type === 'drop') {
+    console.log('User dropped', event.payload.paths);
+    let iconPath = window.__TAURI__.tauri.convertFileSrc(event.payload.paths[0])
+    iconElements.insertAdjacentHTML('afterbegin', `<button><img src="${iconPath}" /></button>`)
+  } else {
+    console.log('File drop cancelled');
+  }
+})
+</script>
+</head>
+<body data-tauri-drag-region>
+  <!-- <h1>swag moor</h1> -->
+  <nav>
+    <button class="settings">⚙</button>
+  </nav>
+</body>
+</html>
