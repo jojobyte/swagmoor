@@ -2,6 +2,7 @@
   "name": "swagmoor",
   "description": "A cross-platform system application dock built in Tauri with Rust, JavaScript, HTML & CSS",
   "author": "jojobyte <jojobyte@0t.lc> (https://jojo.io/)",
+  "license": "MPL-2.0",
   "version": "0.0.1",
   "repository": {
     "type": "git",
