@@ -8,6 +8,7 @@ repository = "https://github.com/jojobyte/swagmoor"
 default-run = "swagmoor"
 edition = "2021"
 rust-version = "1.57"
+readme = "../README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
