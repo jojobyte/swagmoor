@@ -1,6 +1,6 @@
 [package]
 name = "swagmoor"
-version = "0.0.1"
+version = "0.0.2"
 description = "A cross-platform system application dock built in Tauri with Rust, JavaScript, HTML & CSS"
 authors = ["jojobyte <jojobyte@0t.lc> (https://jojo.io/)"]
 license = "MPL-2.0"
