@@ -26,6 +26,7 @@
   ],
   "scripts": {
     "start": "bun run serve & bun run tauri dev",
+    "build": "bun run tauri build",
     "serve": "lite-reload dist --port=9000",
     "tauri": "tauri",
     "patch": "cargo --manifest-path src-tauri/Cargo.toml release patch --execute",
