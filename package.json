@@ -18,8 +18,8 @@
   ],
   "funding": [
     {
-      "type" : "github",
-      "url" : "https://github.com/sponsors/jojobyte"
+      "type": "github",
+      "url": "https://github.com/sponsors/jojobyte"
     },
     "https://ko-fi.com/jojobyte",
     "https://liberapay.com/jojobyte/"
@@ -27,6 +27,7 @@
   "scripts": {
     "start": "npm run serve & npm run tauri dev",
     "build": "npm run tauri build",
+    "copy:modules": "cp node_modules/tauri-plugin-store-api/webview-dist/index.min.js dist/tauri.store.js",
     "serve": "lite-reload dist --port=9000",
     "tauri": "tauri",
     "patch": "cargo --manifest-path src-tauri/Cargo.toml release patch --execute",
@@ -34,7 +35,8 @@
     "major": "cargo --manifest-path src-tauri/Cargo.toml release major --execute"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.0.2"
+    "@tauri-apps/api": "^1.0.2",
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.5",
