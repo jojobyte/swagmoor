@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 html,
 body {
@@ -7,19 +10,76 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
 }
 
 body {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: start;
+  flex-direction: column;
   background-color: #222;
   color: #eee;
+  padding: 0 1em;
+}
+
+fieldset {
+  border: 0 solid transparent;
+  font-size: 1.5rem;
+}
+
+label {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input[type="checkbox"] {
+  width: 1.5em;
+  height: 1.5em;
 }
 </style>
+
 <script type="module" async>
+const { appDir } = window.__TAURI__.path
+const appDirPath = await appDir();
+
+console.log('appDirPath', appDirPath)
+
+import { Store } from './tauri.store.js'
+
+const store = new Store(`config.json`)
+
+console.log('store', store)
+
+await store.set('lockToEdge', true)
+
+const val = await store.get('lockToEdge')
+
+await store.save()
+
+console.log('value from store', val)
+
+let inputCheckboxes = document.querySelector('fieldset')
+inputCheckboxes.addEventListener('change', event => {
+  const targ = event?.target
+  if (targ?.id) {
+    console.log('checkbox toggled', targ.id, targ.checked)
+
+    await store.set(targ.id, targ.checked)
+    await store.save()
+  }
+})
 </script>
+</head>
+
 <body data-tauri-drag-region>
   <h1>Settings</h1>
+
+  <fieldset>
+    <label for="lockToEdge">
+      <input type="checkbox" id="lockToEdge" />
+      Lock dock to edge of screen
+    </label>
+  </fieldset>
 </body>
 </html>
