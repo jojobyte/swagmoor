@@ -18,6 +18,7 @@ cargo install swagmoor
 - [ ] Folder / Groups / Expand
   - [ ] *Option* Launch all apps in group
 - Settings
+  - [ ] Lock to Edge of Screen
   - [ ] Dock on each monitor
     - [ ] *Option* Limit to running apps on monitor & workspace
   - [ ] Per icon override to show on all workspaces
