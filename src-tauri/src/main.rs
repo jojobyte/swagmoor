@@ -3,8 +3,17 @@
   windows_subsystem = "windows"
 )]
 
+use tauri_plugin_store::{PluginBuilder};
+// use tauri_plugin_store::{PluginBuilder, StoreBuilder};
+
 fn main() {
+  // let settings = StoreBuilder::new(".settings".parse().unwrap())
+  //   .default("the-key".to_string(), "wooooot".into())
+  //   .build();
+
   tauri::Builder::default()
+    .plugin(PluginBuilder::default().build())
+    // .plugin(PluginBuilder::default().stores([settings]).freeze().build())
     .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+    .expect("failed to run app");
 }

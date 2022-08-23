@@ -40,33 +40,41 @@ input[type="checkbox"] {
 </style>
 
 <script type="module" async>
-const { appDir } = window.__TAURI__.path
-const appDirPath = await appDir();
-
-console.log('appDirPath', appDirPath)
-
 import { Store } from './tauri.store.js'
 
-const store = new Store(`config.json`)
+const { appDir } = window.__TAURI__.path
+// const appDirPath = await appDir();
+const store = new Store(`swagmoor.config`)
+
+let lockToEdgeElement = document.querySelector('#lockToEdge')
+let inputCheckboxes = document.querySelector('fieldset')
+
+// console.log('appDirPath', appDirPath)
 
 console.log('store', store)
 
-await store.set('lockToEdge', true)
+await store.load()
 
-const val = await store.get('lockToEdge')
+// await store.set('lockToEdge', true)
 
-await store.save()
+const lockToEdge = await store.get('lockToEdge')
+lockToEdgeElement.checked = lockToEdge
 
-console.log('value from store', val)
+// let saved = await store.save()
 
-let inputCheckboxes = document.querySelector('fieldset')
-inputCheckboxes.addEventListener('change', event => {
+// console.log('store was saved', saved)
+
+console.log('lockToEdge from store', lockToEdge)
+
+inputCheckboxes.addEventListener('change', async event => {
   const targ = event?.target
   if (targ?.id) {
     console.log('checkbox toggled', targ.id, targ.checked)
 
     await store.set(targ.id, targ.checked)
-    await store.save()
+    let saved = await store.save()
+
+    console.log('store was saved', saved)
   }
 })
 </script>

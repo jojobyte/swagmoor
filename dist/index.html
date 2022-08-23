@@ -44,7 +44,15 @@ button img {
 }
 </style>
 <script type="module" async>
-const { appWindow, availableMonitors, currentMonitor, WebviewWindow } = window.__TAURI__.window
+import { Store } from './tauri.store.js'
+
+const {
+  appWindow, availableMonitors, currentMonitor, WebviewWindow,
+  LogicalPosition
+} = window.__TAURI__.window
+const store = new Store(`swagmoor.config`)
+await store.load()
+const lockToEdge = await store.get('lockToEdge')
 
 const monitors = await availableMonitors();
 const monitor = await currentMonitor();
@@ -54,6 +62,15 @@ let settingsClose
 
 console.log('available monitors', monitors)
 console.log('current monitor', monitor)
+
+if (lockToEdge) {
+  await appWindow.setPosition(
+    new LogicalPosition(
+      monitor.size.width - window.outerWidth,
+      monitor.size.height
+    )
+  )
+}
 
 function openSettings() {
   let settingsPanel = WebviewWindow.getByLabel('settings')
